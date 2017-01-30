@@ -58,4 +58,3 @@ team2.add("Testeur",Fonceur())   #Strategie de test
 simu = Simulation(team1,team2)
 #Jouer et afficher la partie
 show_simu(simu)
-#show_state()
