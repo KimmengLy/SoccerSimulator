@@ -11,7 +11,7 @@ class TestStrategy(Strategy):
         Strategy.__init__(self,"Random")
     def compute_strategy(self,state,id_team,id_player):
         tools = Action(state,id_team,id_player)
-        return tools.aller(tools.ball_position()) + tools.shoot_but()
+        return tools.aller(tools.ball_position) + tools.shoot_but
 
 
 class Fonceur(Strategy):
@@ -49,8 +49,8 @@ class Defenseur(Strategy):
                 if state.ball.position.x<(GAME_WIDTH/4.0) :
                     return tools.aller(tools.ball_position)+ tools.shoot_but
                 return tools.aller(tools.position_defenseur)
-                if state.ball.position.x>(GAME_WIDTH*(3.0/4)) :
-                    return tools.aller(tools.ball_position)+ tools.shoot_but
+            if state.ball.position.x>(GAME_WIDTH*(3.0/4)) :
+                return tools.aller(tools.ball_position)+ tools.shoot_but
             return tools.aller(tools.position_defenseur) 
         return SoccerAction(Vector2D(),Vector2D())
 
@@ -61,7 +61,7 @@ class Dribbleur(Strategy):
     def compute_strategy (self, state, id_team, id_player):
         tools = Action(state,id_team,id_player)
         if PlayerState.can_shoot :
-            return tools.aller(tools.ball_position)+tools.dribble()
+            return tools.aller(tools.ball_position)+tools.dribble
         return SoccerAction(Vector2D(),Vector2D()) 
         
 
@@ -70,13 +70,9 @@ if __name__ == "__main__":
 	team1 = SoccerTeam(name="team1",login="etu1")
 	team2 = SoccerTeam(name="team2",login="etu2")
 	team1.add("El Matador",Dribbleur()) #Strategie attaquant
-	#team1.add("O Monstro",Defenseur()) #Strategie defenseur
-	#team1.add("Testeur",Defenseur())   #Strategie de test
-	#team1.add("dsdhsdj",Defenseur())
-	#team2.add("Testeur2",Fonceur())
-	#team2.add("jshdsh",TestStrategy())
-	#team2.add("hdfkufhue", Defenseur())
-	#team1.add("dsugduys",Fonceur())
+	team1.add("O Monstro",Defenseur()) #Strategie defenseur
+	team1.add("Testeur",Attaquant())   #Strategie de test
+
 	#Creation d'une partie
 	simu = Simulation(team1,team2)
 	#Jouer et afficher la partie
