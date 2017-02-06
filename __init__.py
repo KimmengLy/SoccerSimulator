@@ -1,5 +1,5 @@
 from soccersimulator import   SoccerTeam
-from Mon_projet import Fonceur, Attaquant, Defenseur
+from MesStrategies import Fonceur, Attaquant, Defenseur
 
 ## Creation d'une equipe
 team1 = SoccerTeam(name="team1")
