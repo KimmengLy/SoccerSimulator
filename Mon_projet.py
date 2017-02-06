@@ -64,17 +64,3 @@ class Dribbleur(Strategy):
             return tools.aller(tools.ball_position)+tools.dribble
         return SoccerAction(Vector2D(),Vector2D()) 
         
-
-if __name__ == "__main__":
-	## Creation d'une equipe
-	team1 = SoccerTeam(name="team1",login="etu1")
-	team2 = SoccerTeam(name="team2",login="etu2")
-	team1.add("El Matador",Dribbleur()) #Strategie attaquant
-	team1.add("O Monstro",Defenseur()) #Strategie defenseur
-	team1.add("Testeur",Attaquant())   #Strategie de test
-
-	#Creation d'une partie
-	simu = Simulation(team1,team2)
-	#Jouer et afficher la partie
-	show_simu(simu)
-
