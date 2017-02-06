@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+# -*- coding: utf-8 -*
 from soccersimulator.strategies  import Strategy
 from soccersimulator.mdpsoccer import SoccerTeam, Simulation, SoccerAction, SoccerState
 from soccersimulator.gui import show_state,show_simu
@@ -55,7 +57,11 @@ class Item(object):
                 joueur_proche=joueur
         return joueur_proche.my_position()
     
-                
+
+            
+
+            
+            
                     
                 
     

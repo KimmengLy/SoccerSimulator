@@ -5,14 +5,6 @@ from tools import Item, Action
 from soccersimulator.utils import Vector2D
 from soccersimulator.settings import GAME_HEIGHT, GAME_WIDTH
 
-## Strategie de test
-class TestStrategy(Strategy):
-    def __init__(self):
-        Strategy.__init__(self,"Random")
-    def compute_strategy(self,state,id_team,id_player):
-        tools = Action(state,id_team,id_player)
-        return tools.aller(tools.ball_position) + tools.shoot_but
-
 
 class Fonceur(Strategy):
     def __init__(self):
