@@ -12,7 +12,7 @@ def get_team(i):
         team.add("El Matador",Attaquant()) #Strategie Attaquant
         team.add("O Monstro",Defenseur()) #Strategie Defenseur
         team.add("LeMur",Defenseur())
-        team.add("El Matador",Attaquant())
+        team.add("Messi",Attaquant())
     return team 
             
 
