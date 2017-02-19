@@ -4,7 +4,7 @@ from MesStrategies import Fonceur, Attaquant, Defenseur
 def get_team(i):
     team = SoccerTeam(name="FUT team")
     if (i==1):
-        team.add("El Matador",Fonceur()) #Strategie Fonceur
+        team.add("El Matador",Solo()) #Strategie 1v1
     if (i==2):
         team.add("El Matador",Attaquant()) #Strategie Attaquant
         team.add("O Monstro",Defenseur()) #Strategie Defenseur
