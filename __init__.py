@@ -1,5 +1,5 @@
 from soccersimulator import   SoccerTeam, Strategy
-from MesStrategies import Fonceur, Attaquant, Defenseur
+from MesStrategies import Solo, Attaquant, Defenseur
 
 def get_team(i):
     team = SoccerTeam(name="FUT team")
