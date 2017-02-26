@@ -134,7 +134,7 @@ class Action(Item):
          
    # def can_shoot(self):
     def test_aller(self, p):
-        if (self.distance_ball<=1.65):
+        if (self.distance_balle<=1.65):
             return SoccerAction(p/50-self.my_position()/50,Vector2D())   
         return SoccerAction(p-self.my_position(),Vector2D())
 
