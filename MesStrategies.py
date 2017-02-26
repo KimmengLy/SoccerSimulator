@@ -1,6 +1,5 @@
 from soccersimulator.strategies  import Strategy
 from soccersimulator.mdpsoccer import SoccerTeam, Simulation, SoccerAction, PlayerState
-from soccersimulator.gui import show_state,show_simu
 from tools import Item, Action
 from soccersimulator.utils import Vector2D
 from soccersimulator.settings import GAME_HEIGHT, GAME_WIDTH
@@ -11,16 +10,17 @@ class Solo(Strategy):
     def compute_strategy (self, state, id_team, id_player):
         tools=Action(state,id_team,id_player)
         if id_team==1 :
-            if  state.ball.position.x>GAME_WIDTH*3/4.0 :
-                return tools.aller(tools.ball_position)+tools.shoot_but
-            if tools.distance_balle() <= 1.65:
-                return tools.ralentir(tools.ball_position)+tools.shoot_but
-            if state.ball.position.x<(GAME_WIDTH/4.0):
-                return tools.aller(tools.ball_position)+tools.shoot_but
-            if tools.distance_balle()<=1.65:
+            if  tools.ball_position.x>GAME_WIDTH*3/4.0 :
+                return tools.aller(tools.ball_position)+tools.tir_angle()
+            if tools.distance_ball() <= 1.65:
                 return tools.ralentir(tools.ball_position)+tools.dribble()
-            return tools.aller(tools.ball_position)
-            
+        if tools.ball_position.x<(GAME_WIDTH/4.0):
+                return tools.aller(tools.ball_position)+tools.tir_angle()
+        if tools.distance_ball()<=1.65:
+                return tools.ralentir(tools.ball_position)+tools.dribble()
+        return tools.aller(tools.ball_position)
+
+
 class Fonceur(Strategy):
     def __init__(self):
         Strategy.__init__(self, "Fonceur")
