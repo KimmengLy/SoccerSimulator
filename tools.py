@@ -76,7 +76,7 @@ class Item(object):
     
        
     def vect_anticipe(self):    
-        return self.state.ball.position+ 8*self.state.ball.vitesse
+        return self.state.ball.position+ 5*self.state.ball.vitesse
     
 
     def position_cage(self):
@@ -93,7 +93,7 @@ class Item(object):
    
     @property
     def can_shoot( self ) :
-        if ( self.vector_ball ).norm >= PLAYER_RADIUS + BALL_RADIUS:
+        if (self.ball_position-self.my_position()).norm>= PLAYER_RADIUS + BALL_RADIUS:
                 return False
         return True
      
@@ -126,7 +126,7 @@ class Action(Item):
         
     def dribble(self):
         vec_pos = self.position_cage() - self.ball_position
-        return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/50 ))
+        return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/60 ))
        
     def tir_angle(self):
         vec_pos = self.position_cage() - self.ball_position
@@ -145,7 +145,6 @@ class Action(Item):
     def aller_vect_ralenti(self):
         return SoccerAction((self.vect_anticipe()-self.my_position())/800,Vector2D())
 
-    #def ralentir_2(self):
         
 
 
