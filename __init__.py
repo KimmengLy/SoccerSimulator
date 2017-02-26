@@ -2,7 +2,7 @@ from soccersimulator import   SoccerTeam, Strategy
 from MesStrategies import Solo2, Attaquant, Def2, Attaquant2
 
 def get_team(i):
-    team = SoccerTeam(name="Legendary")
+    team = SoccerTeam(name="TheLegend27")
     if (i==1):
         team.add("Eto'o",Solo2()) #Strategie Solo
     if (i==2):
