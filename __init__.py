@@ -4,7 +4,7 @@ import MesStrategies
 def get_team(i):
     team = SoccerTeam(name="FUT team")
     if (i==1):
-        team.add("El Matador",MesStrategies.Solo_test()) #Strategie Solo
+        team.add("El Matador",MesStrategies.Solo()) #Strategie Solo
     if (i==2):
         team.add("El Matador",MesStrategies.Attaquant()) #Strategie Attaquant
         team.add("O Monstro",MesStrategies.Defenceur()) #Strategie Defenseur

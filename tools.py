@@ -34,8 +34,12 @@ class Item(object):
         
     @property
     def position_centre(self):
-        return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2+15)
+        return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2)
     
+    @property
+    def position_att(self):
+        return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2+15)
+
     @property
     def position0(self):
         return Vector2D(0,0)
@@ -72,8 +76,11 @@ class Item(object):
     
     @property              
     def vect_anticipe(self):    
-        return self.state.ball.position+ 5*self.state.ball.vitesse
-    
+        return self.state.ball.position+ 5.75*self.state.ball.vitesse
+   
+    @property              
+    def vect_anticipe_att(self):    
+        return self.state.ball.position+ 4.5*self.state.ball.vitesse    
     @property              
     def vect_anticipe_eq(self):    
         return self.equipier.position+ 51*self.equipier.vitesse
@@ -101,6 +108,26 @@ class Item(object):
         if self.ball_position.x==GAME_WIDTH/2: 
             if self.ball_position.y==GAME_HEIGHT/2:
                 return True
+        return False
+    
+    @property
+    def can_attack(self):
+        if self.key[0] == 1 :
+            if self.ball_position.x>GAME_WIDTH/4.0 :
+                return True
+            return False
+        if self.ball_position.x<GAME_WIDTH*(3.0/4) :
+            return True
+        return False
+   
+    @property
+    def can_def(self):
+        if self.key[0] == 1 :
+            if self.ball_position.x<(GAME_WIDTH/4.0)+10 :
+                return True
+            return False
+        if self.ball_position.x>(GAME_WIDTH*(3.0/4))-10 :
+            return True
         return False
     
 
@@ -138,7 +165,7 @@ class Action(Item):
     @property
     def dribble(self):
         vec_pos = self.position_cage - self.ball_position
-        return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/50 ))
+        return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/45 ))
  
     @property
     def dribble_solo(self):
@@ -163,17 +190,17 @@ class Action(Item):
         return SoccerAction(self.vect_anticipe-self.my_position,Vector2D())
         
     @property
-    def aller_vect_ralenti(self):
-        return SoccerAction((self.vect_anticipe-self.my_position)/800,Vector2D())
+    def aller_vect_att(self):
+        return SoccerAction((self.vect_anticipe_att-self.my_position),Vector2D())
     
     @property
     def degagement(self):
-        return SoccerAction(Vector2D(),self.position_centre-self.ball_position)
+        return SoccerAction(Vector2D(),self.position_att-self.ball_position)
 
 class Strats(Action):
     
     @property
-    def solo_test(self):
+    def solo(self):
         if self.team_1 :
             if self.distance_shoot :
                 if self.can_shoot :
@@ -193,6 +220,29 @@ class Strats(Action):
         if self.can_shoot :
             return self.shoot_but
         return self.aller(self.ball_position)
+        
+    @property
+    def attaquant(self):
+        if self.can_attack :
+            if  self.distance_shoot :
+                if self.can_shoot :
+                    return self.shoot_angle
+            if self.can_shoot :
+                return self.dribble
+            return self.aller_vect_att
+        return self.aller(self.position_att)
+        
+    @property
+    def defenseur(self):
+        if self.can_shoot :
+            return self.degagement
+        if self.can_def :
+            return self.aller_vect
+        return self.aller(self.position_defenseur)
+        if self.ball.position.x>(GAME_WIDTH*(3.0/4))-10 :
+            return self.aller_vect
+        return self.aller(self.position_defenseur) 
+        
     
 
         
