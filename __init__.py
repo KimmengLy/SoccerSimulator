@@ -1,18 +1,18 @@
 from soccersimulator import   SoccerTeam, Strategy
-from MesStrategies import Solo2, Attaquant, Def2, Attaquant2
+import MesStrategies
 
 def get_team(i):
-    team = SoccerTeam(name="TheLegend27")
+    team = SoccerTeam(name="FUT team")
     if (i==1):
-        team.add("Eto'o",Solo2()) #Strategie Solo
+        team.add("El Matador",MesStrategies.Solo_test()) #Strategie Solo
     if (i==2):
-        team.add("Messi",Attaquant2()) #Strategie Attaquant
-        team.add("Puyol",Def2()) #Strategie Defenseur
+        team.add("El Matador",MesStrategies.Attaquant()) #Strategie Attaquant
+        team.add("O Monstro",MesStrategies.Defenceur()) #Strategie Defenseur
     if (i==4):
-        team.add("Drogba",Attaquant2()) #Strategie Attaquant
-        team.add("Boateng",Def2()) #Strategie Defenseur
-        team.add("Evra",Def2())
-        team.add("Lampard",Attaquant2())
+        team.add("El Matador",MesStrategies.Defenceur()) #Strategie Attaquant
+        team.add("O Monstro",MesStrategies.Defenceur()) #Strategie Defenseur
+        team.add("LeMur",MesStrategies.Attaquant())
+        team.add("El Matador",MesStrategies.Attaquant())
     return team 
             
 

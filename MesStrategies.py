@@ -29,8 +29,9 @@ class Attaquant(Strategy):
     def __init__(self):
         Strategy.__init__(self, "Solo")
     def compute_strategy (self, state, id_team, id_player):
-        tools=Action(state,id_team,id_player)
-        
+        tools=Strats(state,id_team,id_player)
+        if tools.coups_denvoi:
+            return tools.fonce
         if id_team==1 :
             if state.ball.position.x>GAME_WIDTH/4.0-10 :
                 if  tools.distance_shoot :
@@ -57,12 +58,12 @@ class Defenceur(Strategy):
     def compute_strategy (self, state, id_team, id_player):
         tools = Action(state,id_team,id_player)
         if tools.can_shoot :
-            return tools.passe
+            return tools.degagement
         if id_team == 1:
             if state.ball.position.x<(GAME_WIDTH/4.0)+10 :
                 return tools.aller_vect
             return tools.aller(tools.position_defenseur)
-        if state.ball.position.x>(GAME_WIDTH*(3.0/4)) :
+        if state.ball.position.x>(GAME_WIDTH*(3.0/4))-10 :
             return tools.aller_vect
         return tools.aller(tools.position_defenseur) 
     

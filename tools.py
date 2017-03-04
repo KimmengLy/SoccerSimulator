@@ -26,11 +26,6 @@ class Item(object):
     def ball_position(self):
         """renvoi les coordonées x et y de la balle sous la forme d'un couple (x,y)"""
         return self.state.ball.position
-        
-    @property
-    def ball_position2(self):
-        """renvoi les coordonées x et y de la balle sous la forme d'un couple (x,y)"""
-        return Vector2D(self.ball_position.x+self.ball_position.norm,self.ball_position.y+self.ball_position.norm)
     
     @property
     def my_position(self):
@@ -39,7 +34,7 @@ class Item(object):
         
     @property
     def position_centre(self):
-        return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2)
+        return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2+15)
     
     @property
     def position0(self):
@@ -144,11 +139,16 @@ class Action(Item):
     def dribble(self):
         vec_pos = self.position_cage - self.ball_position
         return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/50 ))
-    
+ 
+    @property
+    def dribble_solo(self):
+        vec_pos = self.position_cage - self.ball_position
+        return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/30 ))
+        
     @property
     def passe_angle(self):
         vec_pos = self.equipier_pos - self.ball_position
-        return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/8 ))
+        return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/5))
      
     @property 
     def shoot_angle(self):
@@ -179,13 +179,13 @@ class Strats(Action):
                 if self.can_shoot :
                     return self.shoot_angle
             if self.can_shoot :
-                    return self.dribble
+                    return self.dribble_solo
             return self.aller_vect
         if  self.distance_shoot:
             if self.can_shoot :
                 return self.shoot_angle
         if self.can_shoot :
-            return self.dribble
+            return self.dribble_solo
         return self.aller_vect
         
     @property
