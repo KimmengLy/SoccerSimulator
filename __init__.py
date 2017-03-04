@@ -2,11 +2,11 @@ from soccersimulator import   SoccerTeam, Strategy
 import MesStrategies
 
 def get_team(i):
-    team = SoccerTeam(name="FUT team")
+    team = SoccerTeam(name="TheLegend27")
     if (i==1):
-        team.add("El Matador",MesStrategies.Solo()) #Strategie Solo
+        team.add("TheLegend27",MesStrategies.Solo()) #Strategie Solo
     if (i==2):
-        team.add("El Matador",MesStrategies.Attaquant()) #Strategie Attaquant
+        team.add("TheLegend27",MesStrategies.Attaquant()) #Strategie Attaquant
         team.add("O Monstro",MesStrategies.Defenceur()) #Strategie Defenseur
     if (i==4):
         team.add("El Matador",MesStrategies.Defenceur()) #Strategie Attaquant
