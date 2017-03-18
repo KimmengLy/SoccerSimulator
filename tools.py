@@ -24,7 +24,7 @@ class Item(object):
         
     @property
     def ball_position(self):
-        """renvoi les coordonées x et y de la balle sous la forme d'un couple (x,y)"""
+        """ vector2D"""
         return self.state.ball.position
     
     @property
@@ -130,6 +130,20 @@ class Item(object):
             return True
         return False
     
+    
+    def adversaire_proche(self):
+        """dmin=GAME_WIDTH
+        for (i,j) in tool.state.soccerstate.players():
+            if self.key[0]!=i and self.state.playerstate(i,j).distance<dmin:
+                dmin=self.state.playerstate(i,j).distance
+                joueur=state.playerstate(i,j)
+            
+        return joueur
+        init = 0
+        for (i,j) in self.state.players:
+            if(self.key[0]!=i):
+                for a in range 0
+                return self.state.player_state(i, j)"""
 
      
 class Action(Item): 
@@ -222,7 +236,7 @@ class Strats(Action):
         return self.aller(self.ball_position)
         
     @property
-    def attaquant(self):
+    def attaque(self):
         if self.can_attack :
             if  self.distance_shoot :
                 if self.can_shoot :
@@ -233,7 +247,7 @@ class Strats(Action):
         return self.aller(self.position_att)
         
     @property
-    def defenseur(self):
+    def defense(self):
         if self.can_shoot :
             return self.degagement
         if self.can_def :
@@ -242,7 +256,6 @@ class Strats(Action):
         if self.ball.position.x>(GAME_WIDTH*(3.0/4))-10 :
             return self.aller_vect
         return self.aller(self.position_defenseur) 
-        
     
 
         
