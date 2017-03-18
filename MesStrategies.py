@@ -20,14 +20,14 @@ class Attaquant(Strategy):
         tools=Strats(state,id_team,id_player)
         if tools.coups_denvoi:
             return tools.fonce
-        return tools.attaquant
+        return tools.attaque
         
-class Defenceur(Strategy):
+class Defenseur(Strategy):
     def __init__(self):
         Strategy.__init__(self, "Defenseur")
     def compute_strategy (self, state, id_team, id_player):
         tools = Strats(state,id_team,id_player)
-        return tools.defenseur
+        return tools.defense
     
         
 class Fonceur(Strategy):
