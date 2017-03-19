@@ -10,7 +10,7 @@ def get_team(i):
         team.add("O Monstro",MesStrategies.Defenseur()) #Strategie Defenseur
     if (i==4):
         team.add("El Matador",MesStrategies.Defenseur()) #Strategie Attaquant
-        team.add("O Monstro",MesStrategies.Defenseur()) #Strategie Defenseur
+        team.add("O Monstro",MesStrategies.Solo()) #Strategie Defenseur
         team.add("LeMur",MesStrategies.Attaquant())
         team.add("El Matador",MesStrategies.Attaquant())
     return team 
