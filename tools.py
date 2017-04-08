@@ -26,6 +26,11 @@ class Item(object):
     def ball_position(self):
         """ vector2D"""
         return self.state.ball.position
+
+    @property
+    def ball_vitesse(self):
+        """ vector2D"""
+        return self.state.ball.vitesse
     
     @property
     def my_position(self):
@@ -39,30 +44,65 @@ class Item(object):
     @property
     def position_att(self):
         return Vector2D(GAME_WIDTH/2,GAME_HEIGHT/2+15)
-
-    @property
-    def position0(self):
-        return Vector2D(0,0)
         
     @property
     def position_defenseur(self):
         if self.key[0] == 2 :
             return Vector2D(GAME_WIDTH*(15.0/16),GAME_HEIGHT/2)
         return Vector2D(GAME_WIDTH/16.0,GAME_HEIGHT/2)
+    @property
+    def position_defenseur2(self):
+        if self.key[0] == 2 :
+            return Vector2D(GAME_WIDTH*(15.0/16)+30,GAME_HEIGHT/2 +20)
+        return Vector2D(GAME_WIDTH/16.0 +30,GAME_HEIGHT/2 + 20)
     
-    @property    
+
+   
+
+    @property  
     def equipier(self):
-        """renvoi la position de l'équipier le plus proche""" 
-        for (i,j) in self.state.players:
-            if((self.key[0]==i) and (self.key[1]!=j)):
-                return self.state.player_state(i, j)
+        """ renvoi l'etat du coequipier le plus proche"""
+        l = [(i, j,self.state.player_state(i,j).position.distance(self.my_position)) for i, j in self.state.players if i==self.key[0] and j!=self.key[1]]
+        
+        idt, idp, dist = l[0]
+        for i, j, d in l:
+            if d < dist:
+                idt, idp, dist = i, j, d
+        return self.state.player_state(idt,idp)
     
-    @property    
+    
+    @property  
     def equipier_pos(self):
-        """renvoi la position de l'équipier le plus proche""" 
-        for (i,j) in self.state.players:
-            if((self.key[0]==i) and (self.key[1]!=j)):
-                return self.state.player_state(i, j).position
+        """renvoi la position de l'équipier le plus proche"""
+        l = [(i, j,self.state.player_state(i,j).position.distance(self.my_position)) for i, j in self.state.players if i==self.key[0] and j!=self.key[1]]
+        
+        idt, idp, dist = l[0]
+        for i, j, d in l:
+            if d < dist:
+                idt, idp, dist = i, j, d
+        return self.state.player_state(idt,idp).position
+        
+    @property
+    def adversaire_proche(self):
+        """renvoi l'état(playerstate) du joueur adverse le plus proche"""
+        l = [(i, j,self.state.player_state(i,j).position.distance(self.my_position)) for i, j in self.state.players if i!=self.key[0] and j!=self.key[1]]
+        
+        idt, idp, dist = l[0]
+        for i, j, d in l:
+            if d < dist:
+                idt, idp, dist = i, j, d
+        return self.state.player_state(idt,idp)
+        
+    @property
+    def pos_adversaire_proche(self):
+        """renvoi la position du joueur adverse le plus proche"""
+        l = [(i, j,self.state.player_state(i,j).position.distance(self.my_position)) for i, j in self.state.players if i!=self.key[0]]
+        idt, idp, dist = l[0]
+        for i, j, d in l:
+            if d < dist:
+                idt, idp, dist = i, j, d
+        return self.state.player_state(idt,idp).position
+    
                 
     @property 
     def distance_ball(self):
@@ -90,6 +130,13 @@ class Item(object):
         if self.key[0]==2:
             return Vector2D(0,GAME_HEIGHT/2)
         return Vector2D(GAME_WIDTH,GAME_HEIGHT/2)
+    
+    @property
+    def position_mes_cages(self):
+        if self.key[0]==2:
+            return Vector2D(GAME_WIDTH,GAME_HEIGHT/2)
+        return Vector2D(0,GAME_HEIGHT/2)
+
 
     @property
     def can_shoot( self ) :
@@ -129,21 +176,26 @@ class Item(object):
         if self.ball_position.x>(GAME_WIDTH*(3.0/4))-10 :
             return True
         return False
-    
-    
-    def adversaire_proche(self):
-        """dmin=GAME_WIDTH
-        for (i,j) in tool.state.soccerstate.players():
-            if self.key[0]!=i and self.state.playerstate(i,j).distance<dmin:
-                dmin=self.state.playerstate(i,j).distance
-                joueur=state.playerstate(i,j)
-            
-        return joueur
-        init = 0
-        for (i,j) in self.state.players:
-            if(self.key[0]!=i):
-                for a in range 0
-                return self.state.player_state(i, j)"""
+        
+    @property
+    def pos_mobile_coeq(self):
+        return Vector2D(self.equipier_pos.x+15,self.equipier_pos.y-15)
+        
+     
+    @property   
+    def joueur_plus_proche_ball(self):
+        
+        l = [(i, j,self.state.player_state(i,j).position.distance(self.ball_position)) for i, j in self.state.players]
+        idt, idp, dist = l[0]
+        for i, j, d in l:
+            if d < dist:
+                idt, idp, dist = i, j, d
+        return self.state.player_state(idt,idp)
+     
+     
+    @property  
+    def pos_joueur_proche_ball(self):
+        return self.joueur_plus_proche_ball.position
 
      
 class Action(Item): 
@@ -162,7 +214,16 @@ class Action(Item):
     @property    
     def passe(self):
         return SoccerAction(Vector2D(),self.equipier_pos-self.ball_position)
+    @property  
+    def passe_vers(self,p):
+        return SoccerAction(Vector2D(),p-self.ball_position)
+        
+     
+    @property   
+    def passe_coeq(self):
+        return SoccerAction(Vector2D(),self.equipier_pos-self.ball_position)
     
+    @property  
     def shoot_to(self, p):
         return SoccerAction(Vector2D(), p-self.ball_position)
     
@@ -180,16 +241,26 @@ class Action(Item):
     def dribble(self):
         vec_pos = self.position_cage - self.ball_position
         return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/45 ))
- 
+    @property
+    def dribble_v2(self):
+        v = self.goal_adv-self.ball_position
+        v = v.normalize()*1.68
+        
     @property
     def dribble_solo(self):
         vec_pos = self.position_cage - self.ball_position
         return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/30 ))
-        
+    """ 
     @property
     def passe_angle(self):
         vec_pos = self.equipier_pos - self.ball_position
         return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/5))
+    """
+    @property
+    def passe_anglev2(self):
+        vec_pos= self.pos_equipier_prochev2 - self.ball_position
+        return SoccerAction(Vector2D(),Vector2D( angle = vec_pos.angle, norm = vec_pos.norm/5))
+        
      
     @property 
     def shoot_angle(self):
@@ -210,9 +281,19 @@ class Action(Item):
     @property
     def degagement(self):
         return SoccerAction(Vector2D(),self.position_att-self.ball_position)
-
+     
+    @property
+    def suivre_action(self):
+        return self.aller(self.pos_mobile_coeq+(4*self.ball_vitesse))
+        
+   
 class Strats(Action):
     
+    @property
+    def immobile(self):
+        return SoccerAction(Vector2D(),Vector2D())
+    
+        
     @property
     def solo(self):
         if self.team_1 :
@@ -255,9 +336,61 @@ class Strats(Action):
         return self.aller(self.position_defenseur)
         if self.ball.position.x>(GAME_WIDTH*(3.0/4))-10 :
             return self.aller_vect
-        return self.aller(self.position_defenseur) 
+        return self.aller(self.position_defenseur)
     
+    @property
+    def defense2(self):
+        if self.can_shoot :
+            return self.degagement
+        if self.can_def :
+            return self.aller_vect
+        return self.aller(self.position_defenseur2)
+        if self.ball.position.x>(GAME_WIDTH*(3.0/4))-10 :
+            return self.aller_vect
+        return self.aller(self.position_defenseur2)
 
+
+    @property
+    def defense_tutor(self):
+        if self.can_shoot :
+            return self.degagement
+        if self.can_def :
+            return self.aller_vect
+        return self.aller(self.position_defenseur_tutor)
+        if self.ball.position.x>(GAME_WIDTH*(3.0/4))-10 :
+            return self.aller_vect
+        return self.aller(self.position_defenseur_tutor)
+    
+    @property
+    def defmilieu(self):
+         #si un équipier est plus proche de la balle le joueur se place en fonction de l'equipier le plus proche
+        if ((self.equipier_pos.distance(self.ball_position)<self.my_position.distance(self.ball_position)) and (self.equipier_pos==self.pos_joueur_proche_ball)):
+             return self.suivre_action
+             
+        elif self.can_shoot :
+            
+            if self.my_position.x >= self.equipier_pos.x:
+                if self.distance_shoot:
+                    return self.shoot_angle
+                return self.dribble
+            return self.passe_coeq
         
+            
+       
+        
+    
+             
+        #si un joueur adverse est plus proche de la balle que le joueur actuel
+        elif (self.position_mes_cages.distance(self.my_position)<70) or (self.pos_adversaire_proche.distance(self.ball_position)< self.my_position.distance(self.ball_position)):
+            return self.aller(self.ball_position + (4*self.ball_vitesse) )
+        
+           
+       
+        else:
+            return self.aller(self.position_mes_cages)
+    
+        
+      
+              
 
 
