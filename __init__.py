@@ -1,4 +1,4 @@
-from soccersimulator import SoccerTeam
+from soccersimulator import SoccerTeam, Strategy
 import MesStrategies
 
 def get_team(i):
