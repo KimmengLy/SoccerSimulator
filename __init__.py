@@ -1,13 +1,8 @@
 from soccersimulator import SoccerTeam
 import MesStrategies
-from arbres import my_get_features
-from arbres_utils import DTreeStrategy
-
 
 def get_team(i):
-    dtree = pickle.load(open(os.path.join(os.path.dirname(__file__),"tree.pkl"),"rb"))
-    dic = {"Fonce":FonceStrategy(),"Static":StaticStrategy(),"Solo":Solo(),"Attaquant":Attaquant(),"Defenseur":Defenseur(), "Passeur":Passeur()}
-    treeStrat = DTreeStrategy(dtree,dic,my_get_features)
+
     team = SoccerTeam(name="FUT team")
     if (i==1):
         team.add("TheLegend27",MesStrategies.Solo()) 
