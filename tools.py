@@ -1,6 +1,4 @@
-
-        
-      #!/usr/bin/bash
+#!/usr/bin/bash
 # -*- coding: utf-8 -*
 
 from soccersimulator.mdpsoccer import SoccerAction
